@@ -2,7 +2,7 @@ const fp = require('fastify-plugin');
 
 module.exports = fp((app, opts, next) => {
   // Load compression. Use nginx in large scale scenarios for better performance
-  app.register(require('fastify-compress'), { global: '*' });
+  app.register(require('fastify-compress'));
 
   // Load body parser
   app.register(require('fastify-formbody'));

@@ -23,14 +23,14 @@ describe('Test server config', () => {
     done();
   });
 
-  test('Expect validateJwtSecret to pass since we are not in the production environment', (done) => {
+  test('Expect validateJwtSecret to pass', (done) => {
     expect(config.utils.validateJwtSecret(config, true)).toBe(true);
     expect.hasAssertions();
 
     done();
   });
 
-  test('Expect validateJwtSecret to fail in the production environment if we do not change default JWT secret', (done) => {
+  test('Expect validateJwtSecret to fail in production environment using default JWT secret', (done) => {
     const originalEnv = process.env.NODE_ENV;
     const originalJwtSecret = process.env.JWT_SECRET;
     process.env.NODE_ENV = 'production';
@@ -45,7 +45,7 @@ describe('Test server config', () => {
     done();
   });
 
-  test('Expect config to be able to read Docker secret files successfully', (done) => {
+  test('Expect config to be able to read Docker secrets successfully', (done) => {
     expect(config.db.domain).toBe(
       fs.readFileSync(process.env.DB_DOMAIN).toString(),
     );

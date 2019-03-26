@@ -55,11 +55,7 @@ module.exports = {
   },
   logger: {
     level: 'info',
-    file: `${process.env.LOG_PATH}/app.log` || `/var/logs/${app.appname}.log`,
-    prettyPrint: {
-      colorize: true,
-      translateTime: 'HH:MM:ss',
-    },
+    file: `${process.env.LOG_PATH}/app.log`,
     redact: ['req.headers.authorization', 'req.body.password'],
     serializers: {
       req(req) {
