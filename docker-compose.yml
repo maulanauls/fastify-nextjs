@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:11.2-alpine
+    restart: always
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: '"fastify-nextjs","fastify-nextjs-test"'
+      POSTGRES_USER: pgadmin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
+      - postgres:/var/lib/postgresql/data
+
+  # pgAdmin:
+  #   image: dpage/pgadmin4:4.3
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: pgadmin
+  #     PGADMIN_DEFAULT_PASSWORD: password
+  #   ports:
+  #     - '5433:80'
+  #   volumes:
+  #     - pgadmin:/var/lib/pgadmin
+  #   depends_on:
+  #     - 'postgres'
+
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_DOMAIN: postgres
+      LOG_PATH: /var/logs/fastify-auth-micro
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/app
+      - ./logs:/var/logs/fastify-auth-micro
+    depends_on:
+      - 'postgres'
+
+volumes:
+  postgres:
+  # pgadmin:
